@@ -75,8 +75,10 @@ const index = ({ user }) => {
               </span>
               <input type='file' name='avatar' id='' accept='image/*' />
             </fieldset>
-            <Link href='/'>Back</Link>
-            <button onClick={handleSubmit}>Submit</button>
+            <article>
+              <Link href='/'>Back</Link>
+              <button onClick={handleSubmit}>Submit</button>
+            </article>
           </form>
         </div>
       </section>
