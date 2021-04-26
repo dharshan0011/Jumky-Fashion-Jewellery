@@ -1,0 +1,39 @@
+@use './variables';
+
+.sidebar {
+  padding: 3vw 2vw;
+  background-color: #4ac2a2;
+  width: fit-content;
+  height: 100vh;
+  position: fixed;
+  img {
+    width: 10rem;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(69%) saturate(0%)
+      hue-rotate(10deg) brightness(111%) contrast(101%);
+  }
+  ul {
+    padding: 0;
+    li {
+      list-style-type: none;
+      margin: 1rem 0;
+      padding: 0.5rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      color: white;
+      span {
+        margin-right: 10px;
+        span {
+          margin-right: 0;
+        }
+      }
+      &.active {
+        background-color: white;
+        color: variables.$primary-color;
+        width: 135%;
+        border-radius: 10px 0 0 10px;
+      }
+    }
+  }
+}

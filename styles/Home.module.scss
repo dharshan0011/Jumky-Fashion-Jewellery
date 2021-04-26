@@ -1,0 +1,120 @@
+.home {
+  div {
+    display: flex;
+    align-items: center;
+    a {
+      margin-left: 0.8rem;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+    form {
+      background-color: #f2f2f7;
+      height: 2.5rem;
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 70%;
+      padding: 0.8rem;
+      border-radius: 30px;
+      margin: 1rem 0;
+      input {
+        background-color: #f2f2f7;
+        border: none;
+        padding: 0.5rem;
+        &:focus {
+          border: none;
+          outline: none;
+        }
+        width: 95%;
+      }
+    }
+    button {
+      background-color: #f2f2f7;
+      display: inline-flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 0 1rem;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+}
+.content {
+  margin-top: 4vh;
+  div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+    span:first-child {
+      opacity: 0.5;
+    }
+
+    form {
+      display: inline-block;
+      opacity: 0.5;
+      width: 20%;
+      input {
+        width: 20%;
+        margin-left: 5px;
+      }
+    }
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+
+    thead {
+      background-color: #f7f7f7;
+      padding: 0.5rem 1rem;
+      tr {
+        margin-bottom: 1rem;
+
+        th {
+          opacity: 0.5;
+          padding: 0.5rem 0.8rem;
+          text-align: left;
+        }
+      }
+    }
+
+    tr {
+      cursor: pointer;
+      &:hover {
+        background-color: #f7f7f7;
+      }
+    }
+
+    td {
+      padding: 1rem 0.8rem;
+      text-align: left;
+      vertical-align: middle;
+      span {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        img {
+          border-radius: 100%;
+          width: 15%;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+.loader {
+  margin-top: 10vh;
+  * {
+    display: block;
+    margin: 0 auto;
+    width: 20%
+  }
+}

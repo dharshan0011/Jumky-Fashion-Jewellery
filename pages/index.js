@@ -1,65 +1,138 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
+import Base from '../Components/Base'
+import Icon from '@material-ui/core/Icon'
+import SearchIcon from '@material-ui/icons/Search'
+import SortIcon from '@material-ui/icons/Sort'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
+import Pagination from '../Components/Pagination'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import Router from 'next/router'
+import { useEffect, useState } from 'react'
 
-export default function Home() {
+export default function Home({ data }) {
+  const [userData, setUserData] = useState(data)
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  const getUsers = async () => {
+    console.log('qurey', router.query.page)
+    if (router.query.page !== undefined) {
+      await fetch(`https://reqres.in/api/users?page=${router.query.page}`)
+        .then((res) => res.json())
+        .then((res) => {
+          setUserData(res)
+        })
+    }
+  }
+  useEffect(() => getUsers(), [userData, router.query.page])
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <Base>
+      <section className={styles.home}>
+        <h1>Employees</h1>
+        <div>
+          <form>
+            <input type='text' name='search' />
+            <SearchIcon style={{ color: '#4ac2a2' }}></SearchIcon>
+          </form>
+          <Link href='/user/add'>
+            <a>
+              <AddCircleIcon
+                style={{ color: '#4ac2a2' }}
+                fontSize='large'
+              ></AddCircleIcon>
+            </a>
+          </Link>
+          <button>
+            Filters
+            <Icon>filter_alt</Icon>
+          </button>
+          <button>
+            Sort
+            <span>
+              <SortIcon></SortIcon>
+            </span>
+          </button>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      </section>
+      <section className={styles.content}>
+        <div>
+          <span>
+            {`Showing ${(userData.page - 1) * userData.per_page}-${
+              (userData.page - 1) * userData.per_page + userData.per_page
+            } of 
+            ${userData.total} records`}
+          </span>
+          <Pagination data={userData}></Pagination>
+          <form>
+            <label htmlFor='noOfRecords'>Results per page </label>
+            <input type='number' name='numberOfRecord' value={6} />
+          </form>
+        </div>
+        {!userData.data.length ? (
+          <div className={styles.loader}>
+            {/* <CircularProgress style={{ color: '#4ac2a2' }} /> */}
+            <img src='/loader.gif' />
+          </div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <input type='checkbox' name='' />
+                </th>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userData.data.map((user) => {
+                return (
+                  <tr
+                    key={user.id}
+                    onClick={() => Router.push(`/user/${user.id}`)}
+                  >
+                    <td>
+                      <input type='checkbox' name='' />
+                    </td>
+                    <td>#{user.id}</td>
+                    <td>
+                      <span>
+                        <img src={user.avatar} alt='' />
+                        {`${user.first_name} ${user.last_name}`}
+                      </span>
+                    </td>
+                    <td>{user.email}</td>
+                    <td>Apt. 556, Kulas Light, Gwenborough</td>
+                    <td>+91 9986948235</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        )}
+      </section>
+    </Base>
   )
 }
+
+export const getStaticProps = async () => {
+  const res = await fetch('https://reqres.in/api/users')
+  const data = await res.json()
+  return { props: { data } }
+}
+
+// export const getStaticProps = async (context) => {
+//   const res = await fetch(`https://reqres.in/api/users/${context.query.page}`)
+//   const data = await res.json()
+
+//   return {
+//     props: {
+//       data,
+//     },
+//   }
+// }
