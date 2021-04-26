@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import navStyles from '../styles/Sidebar.module.scss'
 import Icon from '@material-ui/core/Icon'
 import HomeIcon from '@material-ui/icons/Home'
@@ -10,43 +10,54 @@ import BarChartIcon from '@material-ui/icons/BarChart'
 const Sidebar = () => {
   return (
     <nav className={navStyles.sidebar}>
-      <img src='/logo.png' alt='Jumkey Jwellery' />
+      <picture>
+        <source
+          media='(min-width:1080px)'
+          srcset='/logo.png'
+          // alt='Jumkey Jwellery'
+        />
+        <source
+          media='(max-width:1080px)'
+          srcset='/logo_small.png'
+          // style={{width}}
+        />
+        <img src='/logo_small.png' alt='Jumkey Jwellery' />
+      </picture>
       <ul>
         <li>
           <span>
             <HomeIcon></HomeIcon>
           </span>
-          Home
+          <span className={navStyles.nav_link}>Home</span>
         </li>
         <li className={navStyles.active}>
-          <span>
-            <Icon>badge</Icon>
-          </span>
-          Employees
+          <Icon>badge</Icon>
+
+          <span className={navStyles.nav_link}>Employees</span>
         </li>
         <li>
           <span>
             <GroupIcon></GroupIcon>
           </span>
-          Customers
+          <span className={navStyles.nav_link}>Customers</span>
         </li>
         <li>
           <span>
             <LocalMallIcon></LocalMallIcon>
           </span>
-          Products
+          <span className={navStyles.nav_link}>Products</span>
         </li>
         <li>
           <span>
             <ShoppingCartIcon></ShoppingCartIcon>
           </span>
-          Orders
+          <span className={navStyles.nav_link}>Orders</span>
         </li>
         <li>
           <span>
             <BarChartIcon></BarChartIcon>
           </span>
-          Stats
+          <span className={navStyles.nav_link}>Stats</span>
         </li>
       </ul>
     </nav>
